@@ -16,6 +16,9 @@ import com.microsoft.playwright.Playwright;
 
 public class PlaywrightFactory {
 
+	//tl in variable names stands for ThreadLocal. This indicates that these variables are thread-local variables, meaning each thread has its own separate instance of these variables.
+	//In multi-threaded environments (like parallel test executions), sharing global state between threads can lead to race conditions, where multiple threads modify the same resource simultaneously, causing unpredictable behavior.
+	// By using ThreadLocal, you ensure that each thread has its own isolated instance of variables, avoiding interference between threads.
 	Playwright playwright;
 	Browser browser;
 	BrowserContext browserContext;
@@ -49,9 +52,11 @@ public class PlaywrightFactory {
 		System.out.println("browser name is : " + browserName);
 
 		// playwright = Playwright.create();
-		tlPlaywright.set(Playwright.create());
+		tlPlaywright.set(Playwright.create()); // This ensures each thread gets its own Playwright instance. avoiding conflicts in shared browser states.
+
 
 		switch (browserName.toLowerCase()) {
+//chromium useful for lightweight or simpler browser testing. It’s often used for automation purposes
 		case "chromium":
 			tlBrowser.set(getPlaywright().chromium().launch(new BrowserType.LaunchOptions().setHeadless(false)));
 			break;
@@ -61,6 +66,7 @@ public class PlaywrightFactory {
 		case "safari":
 			tlBrowser.set(getPlaywright().webkit().launch(new BrowserType.LaunchOptions().setHeadless(false)));
 			break;
+//Chrome is the full-featured browser from Google, used when you want to replicate real-world scenarios
 		case "chrome":
 			tlBrowser.set(
 					getPlaywright().chromium().launch(new LaunchOptions().setChannel("chrome").setHeadless(false)));
@@ -74,8 +80,9 @@ public class PlaywrightFactory {
 			System.out.println("please pass the right browser name......");
 			break;
 		}
-
+		//A new browser context is created, allowing isolated sessions with different states (cookies, storage).
 		tlBrowserContext.set(getBrowser().newContext());
+		//A new page is created from the context and assigned to a thread-local variable (tlPage).
 		tlPage.set(getBrowserContext().newPage());
 		getPage().navigate(prop.getProperty("url").trim());
 		return getPage();
@@ -84,6 +91,7 @@ public class PlaywrightFactory {
 
 	/**
 	 * this method is used to initialize the properties from config file
+	 * This Java method init_prop() is responsible for loading properties from a configuration file into a Properties object. The configuration file typically contains key-value pairs used for setting up environment variables, browser configurations, URLs, or other necessary information for testing.
 	 */
 	public Properties init_prop() {
 

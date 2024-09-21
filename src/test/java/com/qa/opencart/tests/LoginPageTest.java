@@ -26,4 +26,5 @@ public class LoginPageTest extends BaseTest {
 		Assert.assertTrue(loginPage.doLogin(prop.getProperty("username").trim(), prop.getProperty("password").trim()));
 	}
 
+
 }
