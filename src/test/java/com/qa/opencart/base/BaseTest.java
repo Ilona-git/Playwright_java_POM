@@ -4,6 +4,7 @@ import java.util.Properties;
 
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 
 import com.microsoft.playwright.Page;
@@ -22,8 +23,8 @@ Sets up page objects (HomePage, LoginPage) for interacting with the application.
  */
 public class BaseTest {
 
-	PlaywrightFactory pf;
-	Page page;
+	protected PlaywrightFactory pf;
+	protected Page page;
 	protected Properties prop;
 
 	protected HomePage homePage;
@@ -32,7 +33,7 @@ public class BaseTest {
 	//The @Parameters annotation is from TestNG and is used to pass parameters from the test suite (like the browser name) to the setup() method.
 	@Parameters({ "browser" })
 	@BeforeTest
-	public void setup(String browserName) {
+	public void setup(@Optional("chrome") String browserName) {
 		//The PlaywrightFactory is responsible for initializing Playwright, browsers, and properties.
 		pf = new PlaywrightFactory();
 		//reads the config.properties file (e.g., browser type, URL).
@@ -50,6 +51,7 @@ public class BaseTest {
 		//A HomePage object is instantiated, passing the Page object to represent the homepage of the application.
 		//This enables the test to perform actions specific to the homepage of the application (e.g., clicking elements, verifying content).
 		homePage = new HomePage(page);
+
 	}
 
 	@AfterTest
