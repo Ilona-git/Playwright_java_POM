@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>PlaywrightPOMSeries</groupId>
@@ -10,7 +10,6 @@
 	<version>0.0.1-SNAPSHOT</version>
 
 	<name>PlaywrightPOMSeries</name>
-	<!-- FIXME change it to the project's website -->
 	<url>http://www.example.com</url>
 
 	<properties>
@@ -18,35 +17,49 @@
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<extentreports-version>5.0.8</extentreports-version>
-
 	</properties>
 
 	<dependencies>
+		<!-- Playwright Dependency -->
 		<dependency>
 			<groupId>com.microsoft.playwright</groupId>
 			<artifactId>playwright</artifactId>
-			<version>1.47.0</version>
+			<version>1.48.0</version> <!-- Updated to the latest version -->
 		</dependency>
 
-
+		<!-- TestNG Dependency -->
 		<dependency>
 			<groupId>org.testng</groupId>
 			<artifactId>testng</artifactId>
 			<version>7.10.2</version>
 		</dependency>
 
+		<!-- ExtentReports Dependency -->
 		<dependency>
 			<groupId>com.aventstack</groupId>
 			<artifactId>extentreports</artifactId>
 			<version>${extentreports-version}</version>
 		</dependency>
 
+		<!-- JUnit Dependency (optional, if needed) -->
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter</artifactId>
+			<version>5.8.1</version>
+			<scope>test</scope>
+		</dependency>
 
+		<dependency>
+			<groupId>com.aventstack</groupId>
+			<artifactId>extentreports</artifactId>
+			<version>5.0.8</version>  <!-- Ensure you're using a compatible version -->
+		</dependency>
 
 	</dependencies>
 
 	<build>
 		<plugins>
+			<!-- Maven Compiler Plugin -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -57,23 +70,34 @@
 				</configuration>
 			</plugin>
 
-
+			<!-- Maven Surefire Plugin for Test Execution -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.20</version>
+				<version>2.22.2</version> <!-- Updated version -->
 				<configuration>
 					<forkCount>3</forkCount>
 					<reuseForks>true</reuseForks>
-					<!-- Updated argLine without MaxPermSize -->
 					<argLine>-Xmx1024m</argLine>
 					<suiteXmlFiles>
 						<suiteXmlFile>src/test/resources/testrunners/testng_regressions.xml</suiteXmlFile>
-						<!-- <suiteXmlFile>${suiteXmlFile}</suiteXmlFile> -->
 					</suiteXmlFiles>
 				</configuration>
 			</plugin>
 
+			<!-- Optional: Maven Surefire Report Plugin -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-report-plugin</artifactId>
+				<version>3.0.0-M5</version> <!-- Optional but useful for generating HTML reports -->
+				<executions>
+					<execution>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 
 		</plugins>
 	</build>

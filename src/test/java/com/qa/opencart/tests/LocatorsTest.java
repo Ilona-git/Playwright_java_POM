@@ -20,7 +20,7 @@ public class LocatorsTest extends BaseTest {
     public void Locators() {
 
         page.navigate("https://naveenautomationlabs.com/opencart/");
-        page.getByRole(AriaRole.LINK, new Page.GetByRoleOptions().setName("Tablets")).click();
+
 
 
         //TEXT locators
@@ -99,6 +99,9 @@ public class LocatorsTest extends BaseTest {
         page.locator("button").locator("visible=true").click();
         page.locator("button >> visible=true").click();
         page.locator("button:visible").click();
+
+        //by
+        page.getByRole(AriaRole.LINK, new Page.GetByRoleOptions().setName("Tablets")).click();
 
     }
 
